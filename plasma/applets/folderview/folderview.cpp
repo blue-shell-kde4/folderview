@@ -395,7 +395,7 @@ void FolderView::init()
     m_filterType          = static_cast<ProxyModel::FilterMode>(cg.readEntry("filter", static_cast<int>(ProxyModel::NoFilter)));
     m_filterFilesMimeList = cg.readEntry("mimeFilter", QStringList());
     m_labelType           = static_cast<FolderView::LabelType>(cg.readEntry("labelType", static_cast<int>(FolderView::None)));
-    m_showSelectionMarker = KGlobalSettings::singleClick();
+    m_showSelectionMarker = false;
 
     m_layout = IconView::Rows;
     m_alignment = layoutDirection() == Qt::LeftToRight ? IconView::Left : IconView::Right;
@@ -1186,7 +1186,7 @@ void FolderView::iconSettingsChanged(int group)
 void FolderView::clickSettingsChanged(int category)
 {
   if (category == KGlobalSettings::SETTINGS_MOUSE && m_iconView) {
-    m_iconView->setShowSelectionMarker(KGlobalSettings::singleClick());
+    m_iconView->setShowSelectionMarker(false);
   }
 }
 

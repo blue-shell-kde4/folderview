@@ -393,7 +393,7 @@ void FolderView::init()
     m_filterType          = static_cast<ProxyModel::FilterMode>(cg.readEntry("filter", 0));
     m_filterFilesMimeList = cg.readEntry("mimeFilter", QStringList());
     m_blankLabel          = cg.readEntry("blankLabel", false);
-    m_showSelectionMarker = KGlobalSettings::singleClick();
+    m_showSelectionMarker = false;
 
     if (isContainment()) {
         m_flow = layoutDirection() == Qt::LeftToRight ? IconView::TopToBottom : IconView::TopToBottomRightToLeft;
@@ -1156,7 +1156,7 @@ void FolderView::iconSettingsChanged(int group)
 void FolderView::clickSettingsChanged(int category)
 {
   if (category == KGlobalSettings::SETTINGS_MOUSE && m_iconView) {
-    m_iconView->setShowSelectionMarker(KGlobalSettings::singleClick());
+    m_iconView->setShowSelectionMarker(false);
   }
 }
 

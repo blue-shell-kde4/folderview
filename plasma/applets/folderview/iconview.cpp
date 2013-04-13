@@ -1974,7 +1974,7 @@ void IconView::mousePressEvent(QGraphicsSceneMouseEvent *event)
                     m_selectionModel->setCurrentIndex(index, QItemSelectionModel::NoUpdate);
                     markAreaDirty(dirtyRect);
                 }
-                m_drawIconShrinked = KGlobalSettings::singleClick();
+                //m_drawIconShrinked = KGlobalSettings::singleClick();
                 markAreaDirty(visualRect(index));
             }
 

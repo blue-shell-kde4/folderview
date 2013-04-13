@@ -1145,13 +1145,13 @@ void IconView::paintItem(QPainter *painter, const QStyleOptionViewItemV4 &option
     QTextLayout layout;
     layout.setText(KStringHandler::preProcessWrap(text));
     layout.setFont(font);
-    const QSize size = doTextLayout(layout, tr.size(), Qt::AlignHCenter,
-                                    QTextOption::WrapAtWordBoundaryOrAnywhere);
+    doTextLayout(layout, tr.size(), Qt::AlignHCenter,
+                 QTextOption::WrapAtWordBoundaryOrAnywhere);
 
     painter->setPen(option.palette.color(QPalette::Text));
     drawTextLayout(painter, layout, tr);
 
-
+/*
     // Draw the focus rect
     // ===================
     if (option.state & QStyle::State_HasFocus) {
@@ -1183,6 +1183,7 @@ void IconView::paintItem(QPainter *painter, const QStyleOptionViewItemV4 &option
                                  fr.right() - 2, fr.bottom() + .5));
         painter->restore();
     }
+*/
 }
 
 void IconView::paintMessage(QPainter *painter, const QRect &rect, const QString &message,

@@ -2101,7 +2101,7 @@ void IconView::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
     }
 
     m_pressedIndex = index;
-    m_drawIconShrinked = true;
+    //m_drawIconShrinked = true;
 
     // Activate the item
     emit activated(index);

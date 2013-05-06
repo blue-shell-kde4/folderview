@@ -66,6 +66,7 @@
 #  include <windows.h>
 #endif // Q_OS_WIN
 
+#include <Plasma/AbstractToolBox>
 #include <Plasma/Corona>
 #include <Plasma/PaintUtils>
 #include <Plasma/Theme>
@@ -362,6 +363,10 @@ void FolderView::init()
 {
     Containment::init();
     setContainmentType(DesktopContainment);
+
+    if (isContainment()) {
+        toolBox()->hide();
+    }
 
     // Find out about icon and font settings changes
     connect(KGlobalSettings::self(), SIGNAL(kdisplayFontChanged()), SLOT(fontSettingsChanged()));

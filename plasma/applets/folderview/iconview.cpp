@@ -2105,6 +2105,7 @@ void IconView::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
 
     // Activate the item
     emit activated(index);
+    m_selectionModel->clearSelection();
 
     // A double-click implies a single-click, which means that the selection will
     // be reset and repainted on mousePressEvent

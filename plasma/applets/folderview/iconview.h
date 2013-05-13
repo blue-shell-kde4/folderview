@@ -280,7 +280,6 @@ private:
     QActionGroup *m_dropActions;
     QPersistentModelIndex m_popupIndex;
     QPointer<ItemEditor> m_editor;
-    Animator *m_animator;
     ActionOverlay *m_actionOverlay;
     QStringList m_popupPreviewPlugins;
     QString m_searchQuery;

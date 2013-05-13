@@ -103,8 +103,6 @@ IconView::IconView(QGraphicsWidget *parent)
     m_toolTipWidget = new ToolTipWidget(this);
     m_toolTipWidget->hide();
 
-    m_animator = new Animator(this);
-
     // set a default for popup preview plugins
     m_popupPreviewPlugins = QStringList() << "imagethumbnail" << "jpegthumbnail";
 
@@ -1094,41 +1092,11 @@ QSize IconView::itemSize(const QStyleOptionViewItemV4 &option, const QModelIndex
 
 void IconView::paintItem(QPainter *painter, const QStyleOptionViewItemV4 &option, const QModelIndex &index) const
 {
-    // Draw the item background
-    // ========================
     const bool selected = (option.state & QStyle::State_Selected);
-    const bool hovered = (option.state & QStyle::State_MouseOver);
-    const qreal hoverProgress = m_animator->hoverProgress(index);
-
-    QPixmap from(option.rect.size());
-    QPixmap to(option.rect.size());
-    from.fill(Qt::transparent);
-    to.fill(Qt::transparent);
-
-    if (selected) {
-        QPainter p(&from);
-        m_itemFrame->setElementPrefix("selected");
-        m_itemFrame->resizeFrame(option.rect.size());
-        m_itemFrame->paintFrame(&p, QPoint());
-    }
-
-    if (hovered && hoverProgress > 0.0) {
-        QPainter p(&to);
-        m_itemFrame->setElementPrefix(selected ? "selected+hover" : "hover");
-        m_itemFrame->resizeFrame(option.rect.size());
-        m_itemFrame->paintFrame(&p, QPoint());
-        p.end();
-
-        QPixmap result = Plasma::PaintUtils::transition(from, to, hoverProgress);
-        painter->drawPixmap(option.rect.topLeft(), result);
-    } else if (selected) {
-        painter->drawPixmap(option.rect.topLeft(), from);
-    }
 
     qreal left, top, right, bottom;
     m_itemFrame->getMargins(left, top, right, bottom);
     const QRect r = option.rect.adjusted(left, top, -right, -bottom);
-
 
     // Draw the icon
     // =============
@@ -1145,7 +1113,7 @@ void IconView::paintItem(QPainter *painter, const QStyleOptionViewItemV4 &option
 
     icon.paint(painter, ir);
 
-    const QRect tr = r.adjusted(0, ir.bottom() - r.top() + 2, 0, 0);
+    const QRect tr = r.adjusted(0, ir.bottom() - r.top() + 2, 0, 0).translated(0, 2);
 
     QFont font = option.font;
 
@@ -1161,45 +1129,17 @@ void IconView::paintItem(QPainter *painter, const QStyleOptionViewItemV4 &option
     QTextLayout layout;
     layout.setText(KStringHandler::preProcessWrap(text));
     layout.setFont(font);
-    doTextLayout(layout, tr.size(), Qt::AlignHCenter,
-                 QTextOption::WrapAtWordBoundaryOrAnywhere);
+    const QSize &size = doTextLayout(layout, tr.size(), Qt::AlignHCenter,
+                        QTextOption::WrapAtWordBoundaryOrAnywhere);
+
+    if (selected) {
+        QRect fr = QStyle::alignedRect(layoutDirection(), Qt::AlignTop | Qt::AlignHCenter, size, tr.translated(0, 1));
+        fr.adjust(-3, -1, 3, 0);
+        painter->fillRect(fr, option.palette.color(QPalette::Highlight));
+    }
 
     painter->setPen(option.palette.color(QPalette::Text));
     drawTextLayout(painter, layout, tr);
-
-/*
-    // Draw the focus rect
-    // ===================
-    if (option.state & QStyle::State_HasFocus) {
-        QRect fr = QStyle::alignedRect(layoutDirection(), Qt::AlignTop | Qt::AlignHCenter, size, tr.translated(0,2));
-        fr.adjust(-2, -2, 2, 2);
-
-        QColor color = Qt::white;
-        color.setAlphaF(.33);
-
-        QColor transparent = color;
-        transparent.setAlphaF(0);
-
-        QLinearGradient g1(0, fr.top(), 0, fr.bottom());
-        g1.setColorAt(0, color);
-        g1.setColorAt(1, transparent);
-
-        QLinearGradient g2(fr.left(), 0, fr.right(), 0);
-        g2.setColorAt(0, transparent);
-        g2.setColorAt(.5, color);
-        g2.setColorAt(1, transparent);
-
-        painter->save();
-        painter->setRenderHint(QPainter::Antialiasing);
-        painter->setPen(QPen(g1, 0));
-        painter->setBrush(Qt::NoBrush);
-        painter->drawRoundedRect(QRectF(fr).adjusted(.5, .5, -.5, -.5), 2, 2);
-        painter->setPen(QPen(g2, 0));
-        painter->drawLine(QLineF(fr.left() + 2, fr.bottom() + .5,
-                                 fr.right() - 2, fr.bottom() + .5));
-        painter->restore();
-    }
-*/
 }
 
 void IconView::paintMessage(QPainter *painter, const QRect &rect, const QString &message,

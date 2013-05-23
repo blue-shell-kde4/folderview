@@ -377,16 +377,16 @@ void FolderView::init()
 
     KConfigGroup cg = config();
     m_customLabel         = cg.readEntry("customLabel", "");
-    m_customIconSize      = cg.readEntry("customIconSize", 0);
+    m_customIconSize      = cg.readEntry("customIconSize", 64);
     m_showPreviews        = cg.readEntry("showPreviews", true);
     m_drawShadows         = cg.readEntry("drawShadows", true);
     m_numTextLines        = cg.readEntry("numTextLines", 2);
     m_textColor           = cg.readEntry("textColor", QColor(Qt::transparent));
     m_iconsLocked         = cg.readEntry("iconsLocked", false);
-    m_alignToGrid         = cg.readEntry("alignToGrid", false);
-    m_clickToView         = cg.readEntry("clickForFolderPreviews", true);
-    m_previewPlugins      = cg.readEntry("previewPlugins", QStringList() << "imagethumbnail" << "jpegthumbnail");
-    m_sortDirsFirst       = cg.readEntry("sortDirsFirst", true);
+    m_alignToGrid         = cg.readEntry("alignToGrid", true);
+    m_clickToView         = cg.readEntry("clickForFolderPreviews", false);
+    m_previewPlugins      = cg.readEntry("previewPlugins", QStringList() << "imagethumbnail" << "jpegthumbnail" << "windowsexethumbnail" << "kffmpegthumbnailer" << "windowsimagethumbnail");
+    m_sortDirsFirst       = cg.readEntry("sortDirsFirst", false);
     m_sortColumn          = cg.readEntry("sortColumn", int(KDirModel::Name));
     m_sortOrder           = sortOrderStringToEnum(cg.readEntry("sortOrder", "ascending"));
     m_filterFiles         = cg.readEntry("filterFiles", "*");
@@ -400,7 +400,7 @@ void FolderView::init()
     } else {
         m_flow = layoutDirection() == Qt::LeftToRight ? IconView::LeftToRight : IconView::RightToLeft;
     }
-    m_flow = static_cast<IconView::Flow>(cg.readEntry("flow", static_cast<int>(m_flow)));
+    m_flow = static_cast<IconView::Flow>(cg.readEntry("flow", 0));
 
     m_model->setFilterMode(m_filterType);
     m_model->setMimeTypeFilterList(m_filterFilesMimeList);

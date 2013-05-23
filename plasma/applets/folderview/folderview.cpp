@@ -379,16 +379,16 @@ void FolderView::init()
 
     KConfigGroup cg = config();
     m_customLabel         = cg.readEntry("customLabel", "");
-    m_customIconSize      = cg.readEntry("customIconSize", 0);
+    m_customIconSize      = cg.readEntry("customIconSize", 64);
     m_showPreviews        = cg.readEntry("showPreviews", true);
     m_drawShadows         = cg.readEntry("drawShadows", true);
     m_numTextLines        = cg.readEntry("numTextLines", 2);
     m_textColor           = cg.readEntry("textColor", QColor(Qt::transparent));
     m_iconsLocked         = cg.readEntry("iconsLocked", false);
-    m_alignToGrid         = cg.readEntry("alignToGrid", false);
-    m_clickToView         = cg.readEntry("clickForFolderPreviews", true);
-    m_previewPlugins      = cg.readEntry("previewPlugins", QStringList() << "imagethumbnail" << "jpegthumbnail");
-    m_sortDirsFirst       = cg.readEntry("sortDirsFirst", true);
+    m_alignToGrid         = cg.readEntry("alignToGrid", true);
+    m_clickToView         = cg.readEntry("clickForFolderPreviews", false);
+    m_previewPlugins      = cg.readEntry("previewPlugins", QStringList() << "imagethumbnail" << "jpegthumbnail" << "windowsexethumbnail" << "kffmpegthumbnailer" << "windowsimagethumbnail");
+    m_sortDirsFirst       = cg.readEntry("sortDirsFirst", false);
     m_sortColumn          = cg.readEntry("sortColumn", int(KDirModel::Name));
     m_sortOrder           = sortOrderStringToEnum(cg.readEntry("sortOrder", "ascending"));
     m_filterFiles         = cg.readEntry("filterFiles", "*");
@@ -397,7 +397,7 @@ void FolderView::init()
     m_labelType           = static_cast<FolderView::LabelType>(cg.readEntry("labelType", static_cast<int>(FolderView::None)));
     m_showSelectionMarker = KGlobalSettings::singleClick();
 
-    m_layout = isContainment() ? IconView::Columns : IconView::Rows;
+    m_layout = IconView::Rows;
     m_alignment = layoutDirection() == Qt::LeftToRight ? IconView::Left : IconView::Right;
     m_layout = static_cast<IconView::Layout>(cg.readEntry("layout", static_cast<int>(m_layout)));
     m_alignment = static_cast<IconView::Alignment>(cg.readEntry("alignment", static_cast<int>(m_alignment)));

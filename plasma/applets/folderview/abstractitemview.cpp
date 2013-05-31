@@ -466,7 +466,7 @@ void AbstractItemView::drawTextLayout(QPainter *painter, const QTextLayout &layo
             // Make the shadow twice as dark
             quint32 * const pixels = reinterpret_cast<quint32*>(shadow.bits());
             for (int i = 0; i < shadow.width() * shadow.height(); i++) {
-                pixels[i] = qMin(255, int(qAlpha(pixels[i]) * 0.85)) << 24;
+                pixels[i] = qMin(255, int(qAlpha(pixels[i]) * 0.75)) << 24;
             }
 
             painter->drawImage(rect.topLeft() + QPoint(1, 1), shadow);

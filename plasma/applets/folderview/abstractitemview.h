@@ -69,6 +69,18 @@ public:
     void setDrawShadows(bool on);
     bool drawShadows() const;
 
+    void setHorizShadowOffset(int offset);
+    int horizShadowOffset() const;
+
+    void setVertShadowOffset(int offset);
+    int vertShadowOffset() const;
+
+    void setShadowBlurRadius(int radius);
+    int shadowBlurRadius() const;
+
+    void setShadowIntensity(qreal intensity);
+    qreal shadowIntensity() const;
+
     QScrollBar *verticalScrollBar() const;
 
     QRect visibleArea() const;
@@ -161,6 +173,10 @@ protected:
     int m_autoScrollSpeed;
     int m_autoScrollSetSpeed;
     bool m_drawShadows;
+    int m_horizShadowOffset;
+    int m_vertShadowOffset;
+    int m_shadowBlurRadius;
+    qreal m_shadowIntensity;
 };
 
 inline QPointF AbstractItemView::mapToViewport(const QPointF &point) const

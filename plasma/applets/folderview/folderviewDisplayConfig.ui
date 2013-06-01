@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>570</width>
-    <height>703</height>
+    <width>394</width>
+    <height>578</height>
    </rect>
   </property>
   <layout class="QGridLayout" name="gridLayout">
@@ -70,6 +70,16 @@
      </property>
      <property name="alignment">
       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+     </property>
+    </widget>
+   </item>
+   <item row="2" column="2">
+    <widget class="QCheckBox" name="sortDescending">
+     <property name="whatsThis">
+      <string>Check this option if you want the icons to be sorted in a descending order.</string>
+     </property>
+     <property name="text">
+      <string/>
      </property>
     </widget>
    </item>
@@ -400,10 +410,29 @@ When this option is checked, icons will automatically snap to the nearest grid c
      </property>
     </widget>
    </item>
-   <item row="16" column="1">
+   <item row="16" column="0" colspan="2">
+    <widget class="QLabel" name="iconTextTitle_2">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="font">
+      <font>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="text">
+      <string>Text Shadow</string>
+     </property>
+    </widget>
+   </item>
+   <item row="17" column="0" colspan="2">
     <widget class="QLabel" name="drawShadowsLabel">
      <property name="text">
-      <string>Shadows:</string>
+      <string>Enabled:</string>
      </property>
      <property name="alignment">
       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -413,7 +442,7 @@ When this option is checked, icons will automatically snap to the nearest grid c
      </property>
     </widget>
    </item>
-   <item row="16" column="2">
+   <item row="17" column="2">
     <widget class="QCheckBox" name="drawShadows">
      <property name="whatsThis">
       <string>&lt;html&gt;&lt;body&gt;&lt;p&gt;Check this option if you want the text labels to cast a shadow on the background.&lt;/p&gt;
@@ -427,7 +456,78 @@ When this option is checked, icons will automatically snap to the nearest grid c
      </property>
     </widget>
    </item>
-   <item row="17" column="4">
+   <item row="18" column="0" colspan="2">
+    <widget class="QLabel" name="horizShadowOffsetLabel">
+     <property name="text">
+      <string>Horizontal offset:</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+     </property>
+    </widget>
+   </item>
+   <item row="18" column="2">
+    <widget class="QSpinBox" name="horizShadowOffset">
+     <property name="maximum">
+      <number>10</number>
+     </property>
+    </widget>
+   </item>
+   <item row="19" column="0" colspan="2">
+    <widget class="QLabel" name="vertShadowOffsetLabel">
+     <property name="text">
+      <string>Vertical offset:</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+     </property>
+    </widget>
+   </item>
+   <item row="19" column="2">
+    <widget class="QSpinBox" name="vertShadowOffset">
+     <property name="maximum">
+      <number>10</number>
+     </property>
+    </widget>
+   </item>
+   <item row="20" column="0" colspan="2">
+    <widget class="QLabel" name="shadowBlurRadiusLabel">
+     <property name="text">
+      <string>Blur radius:</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+     </property>
+    </widget>
+   </item>
+   <item row="20" column="2">
+    <widget class="QSpinBox" name="shadowBlurRadius">
+     <property name="maximum">
+      <number>10</number>
+     </property>
+    </widget>
+   </item>
+   <item row="21" column="0" colspan="2">
+    <widget class="QLabel" name="shadowIntensityLabel">
+     <property name="text">
+      <string>Intensity:</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+     </property>
+    </widget>
+   </item>
+   <item row="21" column="2">
+    <widget class="QDoubleSpinBox" name="shadowIntensity">
+     <property name="maximum">
+      <double>5.000000000000000</double>
+     </property>
+     <property name="singleStep">
+      <double>0.100000000000000</double>
+     </property>
+    </widget>
+   </item>
+   <item row="22" column="2">
     <spacer name="verticalSpacer_2">
      <property name="orientation">
       <enum>Qt::Vertical</enum>
@@ -439,16 +539,6 @@ When this option is checked, icons will automatically snap to the nearest grid c
       </size>
      </property>
     </spacer>
-   </item>
-   <item row="2" column="2">
-    <widget class="QCheckBox" name="sortDescending">
-     <property name="whatsThis">
-      <string>Check this option if you want the icons to be sorted in a descending order.</string>
-     </property>
-     <property name="text">
-      <string/>
-     </property>
-    </widget>
    </item>
   </layout>
  </widget>
@@ -483,7 +573,6 @@ When this option is checked, icons will automatically snap to the nearest grid c
   <tabstop>clickToView</tabstop>
   <tabstop>numLinesEdit</tabstop>
   <tabstop>colorButton</tabstop>
-  <tabstop>drawShadows</tabstop>
  </tabstops>
  <resources/>
  <connections/>

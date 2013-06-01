@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>442</width>
-    <height>401</height>
+    <width>374</width>
+    <height>528</height>
    </rect>
   </property>
   <layout class="QGridLayout" name="gridLayout">
@@ -62,6 +62,16 @@
      </property>
     </widget>
    </item>
+   <item row="1" column="2" colspan="2">
+    <widget class="KComboBox" name="titleEdit">
+     <property name="editable">
+      <bool>true</bool>
+     </property>
+     <property name="autoCompletion">
+      <bool>false</bool>
+     </property>
+    </widget>
+   </item>
    <item row="2" column="0" colspan="2">
     <widget class="QLabel" name="iconsTitle">
      <property name="sizePolicy">
@@ -81,7 +91,7 @@
      </property>
     </widget>
    </item>
-   <item row="3" column="0" rowspan="6">
+   <item row="3" column="0" rowspan="5">
     <spacer name="horizontalSpacer_3">
      <property name="orientation">
       <enum>Qt::Horizontal</enum>
@@ -110,7 +120,7 @@
      </property>
     </widget>
    </item>
-   <item row="3" column="2">
+   <item row="3" column="2" colspan="2">
     <widget class="KComboBox" name="flowCombo">
      <property name="whatsThis">
       <string>Use this control to choose if you want the icons to be arranged top to bottom starting on the left side of the view, or arranged left to right starting at the top of the view.</string>
@@ -130,14 +140,14 @@
      </property>
     </widget>
    </item>
-   <item row="4" column="2">
+   <item row="4" column="2" colspan="2">
     <widget class="KComboBox" name="sortCombo">
      <property name="whatsThis">
       <string>Use this control to choose the criteria by which the icons will be sorted in the view.</string>
      </property>
     </widget>
    </item>
-   <item row="4" column="3">
+   <item row="4" column="4">
     <spacer name="horizontalSpacer_7">
      <property name="orientation">
       <enum>Qt::Horizontal</enum>
@@ -163,7 +173,7 @@
      </property>
     </widget>
    </item>
-   <item row="5" column="2" colspan="2">
+   <item row="5" column="2" colspan="3">
     <layout class="QHBoxLayout" name="horizontalLayout">
      <item>
       <widget class="QLabel" name="label_5">
@@ -216,7 +226,7 @@
      </property>
     </widget>
    </item>
-   <item row="6" column="2" colspan="2">
+   <item row="6" column="2" colspan="3">
     <layout class="QHBoxLayout" name="horizontalLayout_2">
      <item>
       <widget class="QCheckBox" name="showPreviews">
@@ -413,10 +423,29 @@ When this option is checked, icons will automatically snap to the nearest grid c
      </property>
     </widget>
    </item>
-   <item row="13" column="1">
+   <item row="13" column="0" colspan="2">
+    <widget class="QLabel" name="iconTextTitle_2">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="font">
+      <font>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="text">
+      <string>Text Shadow</string>
+     </property>
+    </widget>
+   </item>
+   <item row="14" column="1">
     <widget class="QLabel" name="drawShadowsLabel">
      <property name="text">
-      <string>Shadows:</string>
+      <string>Enabled:</string>
      </property>
      <property name="alignment">
       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -426,7 +455,7 @@ When this option is checked, icons will automatically snap to the nearest grid c
      </property>
     </widget>
    </item>
-   <item row="13" column="2">
+   <item row="14" column="2">
     <widget class="QCheckBox" name="drawShadows">
      <property name="whatsThis">
       <string>&lt;html&gt;&lt;body&gt;&lt;p&gt;Check this option if you want the text labels to cast a shadow on the background.&lt;/p&gt;
@@ -440,7 +469,78 @@ When this option is checked, icons will automatically snap to the nearest grid c
      </property>
     </widget>
    </item>
-   <item row="14" column="3">
+   <item row="15" column="1">
+    <widget class="QLabel" name="horizShadowOffsetLabel">
+     <property name="text">
+      <string>Horizontal offset:</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+     </property>
+    </widget>
+   </item>
+   <item row="15" column="2">
+    <widget class="QSpinBox" name="horizShadowOffset">
+     <property name="maximum">
+      <number>10</number>
+     </property>
+    </widget>
+   </item>
+   <item row="16" column="1">
+    <widget class="QLabel" name="vertShadowOffsetLabel">
+     <property name="text">
+      <string>Vertical offset:</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+     </property>
+    </widget>
+   </item>
+   <item row="16" column="2">
+    <widget class="QSpinBox" name="vertShadowOffset">
+     <property name="maximum">
+      <number>10</number>
+     </property>
+    </widget>
+   </item>
+   <item row="17" column="1">
+    <widget class="QLabel" name="shadowBlurRadiusLabel">
+     <property name="text">
+      <string>Blur radius:</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+     </property>
+    </widget>
+   </item>
+   <item row="17" column="2">
+    <widget class="QSpinBox" name="shadowBlurRadius">
+     <property name="maximum">
+      <number>10</number>
+     </property>
+    </widget>
+   </item>
+   <item row="18" column="1">
+    <widget class="QLabel" name="shadowIntensityLabel">
+     <property name="text">
+      <string>Intensity:</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+     </property>
+    </widget>
+   </item>
+   <item row="18" column="2">
+    <widget class="QDoubleSpinBox" name="shadowIntensity">
+     <property name="maximum">
+      <double>5.000000000000000</double>
+     </property>
+     <property name="singleStep">
+      <double>0.100000000000000</double>
+     </property>
+    </widget>
+   </item>
+   <item row="19" column="3" colspan="2">
     <spacer name="verticalSpacer_2">
      <property name="orientation">
       <enum>Qt::Vertical</enum>
@@ -453,23 +553,13 @@ When this option is checked, icons will automatically snap to the nearest grid c
      </property>
     </spacer>
    </item>
-   <item row="1" column="2" colspan="2">
-    <widget class="KComboBox" name="titleEdit">
-     <property name="editable">
-      <bool>true</bool>
-     </property>
-     <property name="autoCompletion">
-      <bool>false</bool>
-     </property>
-    </widget>
-   </item>
   </layout>
  </widget>
  <customwidgets>
   <customwidget>
-   <class>KIntSpinBox</class>
-   <extends>QSpinBox</extends>
-   <header>knuminput.h</header>
+   <class>KColorButton</class>
+   <extends>QPushButton</extends>
+   <header>kcolorbutton.h</header>
   </customwidget>
   <customwidget>
    <class>KComboBox</class>
@@ -477,9 +567,9 @@ When this option is checked, icons will automatically snap to the nearest grid c
    <header>kcombobox.h</header>
   </customwidget>
   <customwidget>
-   <class>KColorButton</class>
-   <extends>QPushButton</extends>
-   <header>kcolorbutton.h</header>
+   <class>KIntSpinBox</class>
+   <extends>QSpinBox</extends>
+   <header>knuminput.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

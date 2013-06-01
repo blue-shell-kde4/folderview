@@ -209,6 +209,10 @@ private:
     bool m_sortDirsFirst;
     bool m_showPreviews;
     bool m_drawShadows;
+    int m_horizShadowOffset;
+    int m_vertShadowOffset;
+    int m_shadowBlurRadius;
+    qreal m_shadowIntensity;
     bool m_iconsLocked;
     bool m_alignToGrid;
     bool m_clickToView;

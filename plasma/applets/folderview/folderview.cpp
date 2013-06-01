@@ -387,6 +387,10 @@ void FolderView::init()
     m_customIconSize      = cg.readEntry("customIconSize", 64);
     m_showPreviews        = cg.readEntry("showPreviews", true);
     m_drawShadows         = cg.readEntry("drawShadows", true);
+    m_horizShadowOffset   = cg.readEntry("horizShadowOffset", 1);
+    m_vertShadowOffset    = cg.readEntry("vertShadowOffset", 1);
+    m_shadowBlurRadius    = cg.readEntry("shadowBlurRadius", 0);
+    m_shadowIntensity     = cg.readEntry("shadowIntensity", 0.75);
     m_numTextLines        = cg.readEntry("numTextLines", 2);
     m_textColor           = cg.readEntry("textColor", QColor(Qt::transparent));
     m_iconsLocked         = cg.readEntry("iconsLocked", false);
@@ -501,10 +505,14 @@ void FolderView::configChanged()
         needReload = true;
     }
 
-    m_drawShadows  = cg.readEntry("drawShadows", m_drawShadows);
-    m_clickToView  = cg.readEntry("clickForFolderPreviews", m_clickToView);
-    m_numTextLines = cg.readEntry("numTextLines", m_numTextLines);
-    m_alignToGrid  = cg.readEntry("alignToGrid", m_alignToGrid);
+    m_drawShadows       = cg.readEntry("drawShadows", m_drawShadows);
+    m_horizShadowOffset = cg.readEntry("horizShadowOffset", m_horizShadowOffset);
+    m_vertShadowOffset  = cg.readEntry("vertShadowOffset", m_vertShadowOffset);
+    m_shadowBlurRadius  = cg.readEntry("shadowBlurRadius", m_shadowBlurRadius);
+    m_shadowIntensity   = cg.readEntry("shadowIntensity", m_shadowIntensity);
+    m_clickToView       = cg.readEntry("clickForFolderPreviews", m_clickToView);
+    m_numTextLines      = cg.readEntry("numTextLines", m_numTextLines);
+    m_alignToGrid       = cg.readEntry("alignToGrid", m_alignToGrid);
 
     if (QAction *action = m_actionCollection.action("auto_align")) {
         action->setChecked(m_alignToGrid);
@@ -757,6 +765,10 @@ void FolderView::createConfigurationInterface(KConfigDialog *parent)
     uiDisplay.clickToView->setChecked(m_clickToView);
     uiDisplay.lockInPlace->setChecked(m_iconsLocked);
     uiDisplay.drawShadows->setChecked(m_drawShadows);
+    uiDisplay.horizShadowOffset->setValue(m_horizShadowOffset);
+    uiDisplay.vertShadowOffset->setValue(m_vertShadowOffset);
+    uiDisplay.shadowBlurRadius->setValue(m_shadowBlurRadius);
+    uiDisplay.shadowIntensity->setValue(m_shadowIntensity);
     uiDisplay.showPreviews->setChecked(m_showPreviews);
     uiDisplay.previewsAdvanced->setEnabled(m_showPreviews);
     uiDisplay.sortDescending->setChecked(m_sortOrder == Qt::DescendingOrder);
@@ -822,6 +834,10 @@ void FolderView::createConfigurationInterface(KConfigDialog *parent)
     connect(uiDisplay.numLinesEdit, SIGNAL(valueChanged(int)), parent, SLOT(settingsModified()));
     connect(uiDisplay.colorButton, SIGNAL(changed(QColor)), parent, SLOT(settingsModified()));
     connect(uiDisplay.drawShadows, SIGNAL(toggled(bool)), parent, SLOT(settingsModified()));
+    connect(uiDisplay.horizShadowOffset, SIGNAL(valueChanged(int)), parent, SLOT(settingsModified()));
+    connect(uiDisplay.vertShadowOffset, SIGNAL(valueChanged(int)), parent, SLOT(settingsModified()));
+    connect(uiDisplay.shadowBlurRadius, SIGNAL(valueChanged(int)), parent, SLOT(settingsModified()));
+    connect(uiDisplay.shadowIntensity, SIGNAL(valueChanged(double)), parent, SLOT(settingsModified()));
 
     connect(uiFilter.filterCombo, SIGNAL(currentIndexChanged(int)), parent, SLOT(settingsModified()));
     connect(uiFilter.filterFilesPattern, SIGNAL(textChanged(QString)), parent, SLOT(settingsModified()));
@@ -860,6 +876,10 @@ void FolderView::configAccepted()
     KConfigGroup cg = config();
 
     cg.writeEntry("drawShadows", uiDisplay.drawShadows->isChecked());
+    cg.writeEntry("vertShadowOffset", uiDisplay.vertShadowOffset->value());
+    cg.writeEntry("horizShadowOffset", uiDisplay.horizShadowOffset->value());
+    cg.writeEntry("shadowBlurRadius", uiDisplay.shadowBlurRadius->value());
+    cg.writeEntry("shadowIntensity", uiDisplay.shadowIntensity->value());
 
     cg.writeEntry("showPreviews", uiDisplay.showPreviews->isChecked());
 
@@ -1032,6 +1052,10 @@ void FolderView::updateListViewState()
         m_listView->setFont(font);
     }
     m_listView->setDrawShadows(m_drawShadows);
+    m_listView->setHorizShadowOffset(m_horizShadowOffset);
+    m_listView->setVertShadowOffset(m_vertShadowOffset);
+    m_listView->setShadowBlurRadius(m_shadowBlurRadius);
+    m_listView->setShadowIntensity(m_shadowIntensity);
     m_listView->setIconSize(iconSize());
     m_listView->setWordWrap(m_numTextLines > 1);
     m_listView->setTextLineCount(m_numTextLines);
@@ -1044,6 +1068,10 @@ void FolderView::updateIconViewState()
     m_iconView->setPalette(palette);
 
     m_iconView->setDrawShadows(m_drawShadows);
+    m_iconView->setHorizShadowOffset(m_horizShadowOffset);
+    m_iconView->setVertShadowOffset(m_vertShadowOffset);
+    m_iconView->setShadowBlurRadius(m_shadowBlurRadius);
+    m_iconView->setShadowIntensity(m_shadowIntensity);
     m_iconView->setIconSize(iconSize());
     m_iconView->setTextLineCount(m_numTextLines);
     m_iconView->setLayout(m_layout);

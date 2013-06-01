@@ -62,7 +62,11 @@ AbstractItemView::AbstractItemView(QGraphicsWidget *parent)
       m_rdy(0),
       m_smoothScrolling(false),
       m_autoScrollSpeed(0),
-      m_drawShadows(true)
+      m_drawShadows(true),
+      m_horizShadowOffset(1),
+      m_vertShadowOffset(1),
+      m_shadowBlurRadius(0),
+      m_shadowIntensity(0.75)
 {
     m_scrollBar = new Plasma::ScrollBar(this);
     connect(m_scrollBar, SIGNAL(valueChanged(int)), SLOT(scrollBarValueChanged(int)));
@@ -149,9 +153,66 @@ void AbstractItemView::setDrawShadows(bool on)
     }
 }
 
+
 bool AbstractItemView::drawShadows() const
 {
     return m_drawShadows;
+}
+
+void AbstractItemView::setHorizShadowOffset(int offset)
+{
+    if (m_horizShadowOffset != offset) {
+        m_horizShadowOffset = offset;
+        markAreaDirty(visibleArea());
+        update();
+    }
+}
+
+int AbstractItemView::horizShadowOffset() const
+{
+    return m_horizShadowOffset;
+}
+
+void AbstractItemView::setVertShadowOffset(int offset)
+{
+    if (m_vertShadowOffset != offset) {
+        m_vertShadowOffset = offset;
+        markAreaDirty(visibleArea());
+        update();
+    }
+}
+
+int AbstractItemView::vertShadowOffset() const
+{
+    return m_vertShadowOffset;
+}
+
+void AbstractItemView::setShadowBlurRadius(int radius)
+{
+    if (m_shadowBlurRadius != radius) {
+        m_shadowBlurRadius = radius;
+        markAreaDirty(visibleArea());
+        update();
+    }
+}
+
+int AbstractItemView::shadowBlurRadius() const
+{
+    return m_shadowBlurRadius;
+}
+
+void AbstractItemView::setShadowIntensity(qreal intensity)
+{
+    if (m_shadowIntensity != intensity) {
+        m_shadowIntensity = intensity;
+        markAreaDirty(visibleArea());
+        update();
+    }
+}
+
+qreal AbstractItemView::shadowIntensity() const
+{
+    return m_shadowIntensity;
 }
 
 QScrollBar *AbstractItemView::verticalScrollBar() const
@@ -457,15 +518,15 @@ void AbstractItemView::drawTextLayout(QPainter *painter, const QTextLayout &layo
         } else {
             // Draw shadow
             QImage shadow = pixmap.toImage();
-            Plasma::PaintUtils::shadowBlur(shadow, 0, Qt::black);
+            Plasma::PaintUtils::shadowBlur(shadow, m_shadowBlurRadius, Qt::black);
 
             // Make the shadow twice as dark
             quint32 * const pixels = reinterpret_cast<quint32*>(shadow.bits());
             for (int i = 0; i < shadow.width() * shadow.height(); i++) {
-                pixels[i] = qMin(255, int(qAlpha(pixels[i]) * 0.75)) << 24;
+                pixels[i] = qMin(255, int(qAlpha(pixels[i]) * m_shadowIntensity)) << 24;
             }
 
-            painter->drawImage(rect.topLeft() + QPoint(1, 1), shadow);
+            painter->drawImage(rect.topLeft() + QPoint(m_horizShadowOffset, m_vertShadowOffset), shadow);
         }
     }
 

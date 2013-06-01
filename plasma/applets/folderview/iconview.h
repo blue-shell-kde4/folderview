@@ -201,7 +201,6 @@ private slots:
     void repositionWidgetsManually();
     void closeEditor(QGraphicsWidget *editor, QAbstractItemDelegate::EndEditHint hint);
     void checkIfFolderResult(const QModelIndex &index, bool isFolder);
-    void svgChanged();
     void viewScrolled();
 
 private:

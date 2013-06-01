@@ -70,10 +70,6 @@ AbstractItemView::AbstractItemView(QGraphicsWidget *parent)
     connect(m_scrollBar->nativeWidget(), SIGNAL(sliderReleased()), SLOT(scrollBarSliderReleased()));
 
     m_itemFrame = new Plasma::FrameSvg(this);
-    m_itemFrame->setImagePath("widgets/viewitem");
-    m_itemFrame->setCacheAllRenderedFrames(true);
-    m_itemFrame->setElementPrefix("normal");
-    connect(m_itemFrame, SIGNAL(repaintNeeded()), this, SLOT(svgChanged()));
 
     // This is a dummy widget that's never shown - it's just passed to
     // KFileItemDelegate in the style options, so it will use the widget's

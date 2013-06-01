@@ -306,11 +306,16 @@ void IconView::updateGridSize()
     qreal left, top, right, bottom;
     m_itemFrame->getMargins(left, top, right, bottom);
 
+    left += 7;
+    top += 7;
+    right += 7;
+    bottom += 7;
+
     QFontMetrics fm(font());
     int w = qMin(fm.width('x') * 15, m_iconSize.width() * 2);
 
     QSize size;
-    size.rwidth() = qMax(w, m_iconSize.width()) + left + right;
+    size.rwidth() = qMax(w, m_iconSize.width() * 2) + left + right;
     size.rheight() = top + bottom + m_iconSize.height() + fm.lineSpacing() * textLineCount() + 4;
 
     // Update the minimum size hint
@@ -1637,17 +1642,6 @@ void IconView::checkIfFolderResult(const QModelIndex &index, bool isFolder)
     } else if (m_popupView) {
         m_popupView->delayedHide();
     }
-}
-
-void IconView::svgChanged()
-{
-    for (int i = 0; i < m_validRows; ++i) {
-        m_items[i].needSizeAdjust = true;
-    }
-
-    // this updates the grid size, then calls layoutItems() which in turn repaints the view
-    updateGridSize();
-    updateActionButtons();
 }
 
 void IconView::viewScrolled()

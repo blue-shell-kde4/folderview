@@ -51,6 +51,11 @@ ListView::ListView(QGraphicsWidget *parent)
     setAcceptDrops(true);
     setCacheMode(NoCache);
 
+    m_itemFrame->setImagePath("widgets/viewitem");
+    m_itemFrame->setCacheAllRenderedFrames(true);
+    m_itemFrame->setElementPrefix("normal");
+    connect(m_itemFrame, SIGNAL(repaintNeeded()), this, SLOT(svgChanged()));
+
     m_animator = new Animator(this);
 }
 

@@ -637,6 +637,19 @@ void FolderView::configChanged()
 
         setUrl(m_url);
     }
+
+    QTimer::singleShot(1500, this, SLOT(updateContainmentActions()));
+}
+
+void FolderView::updateContainmentActions() {
+    corona()->config()->reparseConfiguration();
+    KConfigGroup cfg(corona()->config(), "ActionPlugins");
+
+    if (cfg.exists()) {
+        foreach (const QString &key, cfg.keyList()) {
+            setContainmentActions(key, cfg.readEntry(key, QString()));
+        }
+    }
 }
 
 FolderView::~FolderView()

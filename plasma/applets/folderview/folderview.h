@@ -144,6 +144,7 @@ protected slots:
     void activated(const QModelIndex &index);
     void indexesMoved(const QModelIndexList &indexes);
     void contextMenuRequest(QWidget *widget, const QPoint &screenPos);
+    void updateContainmentActions();
 
     void configAccepted();
     void filterChanged(int index);

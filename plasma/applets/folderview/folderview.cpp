@@ -389,8 +389,8 @@ void FolderView::init()
     m_drawShadows         = cg.readEntry("drawShadows", true);
     m_horizShadowOffset   = cg.readEntry("horizShadowOffset", 1);
     m_vertShadowOffset    = cg.readEntry("vertShadowOffset", 1);
-    m_shadowBlurRadius    = cg.readEntry("shadowBlurRadius", 2);
-    m_shadowIntensity     = cg.readEntry("shadowIntensity", 2);
+    m_shadowBlurRadius    = cg.readEntry("shadowBlurRadius", 1);
+    m_shadowIntensity     = cg.readEntry("shadowIntensity", 1.3);
     m_numTextLines        = cg.readEntry("numTextLines", 2);
     m_textColor           = cg.readEntry("textColor", QColor(Qt::transparent));
     m_iconsLocked         = cg.readEntry("iconsLocked", false);

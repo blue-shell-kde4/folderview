@@ -65,8 +65,8 @@ AbstractItemView::AbstractItemView(QGraphicsWidget *parent)
       m_drawShadows(true),
       m_horizShadowOffset(1),
       m_vertShadowOffset(1),
-      m_shadowBlurRadius(2),
-      m_shadowIntensity(2)
+      m_shadowBlurRadius(1),
+      m_shadowIntensity(1.3)
 {
     m_scrollBar = new Plasma::ScrollBar(this);
     connect(m_scrollBar, SIGNAL(valueChanged(int)), SLOT(scrollBarValueChanged(int)));

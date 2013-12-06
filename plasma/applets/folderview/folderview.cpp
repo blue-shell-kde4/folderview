@@ -615,6 +615,15 @@ void FolderView::configChanged()
         needReload = true;
     }
 
+    const QStringList savedPositions(config().readEntry("savedPositions", QStringList()));
+    if (m_savedPositions.isEmpty())
+    {
+        m_savedPositions = savedPositions;
+        m_iconView->setIconPositionsData(m_savedPositions);
+        needReload = true;
+        preserveIconPositions = false;
+    }
+
     const KUrl url = cg.readEntry("url", m_url);
     if (url != m_url) {
         m_url = url;
@@ -1149,8 +1158,8 @@ void FolderView::setupIconView()
 
     m_iconView = new IconView(this);
 
-    const QStringList data = config().readEntry("savedPositions", QStringList());
-    m_iconView->setIconPositionsData(data);
+    m_savedPositions = config().readEntry("savedPositions", QStringList());
+    m_iconView->setIconPositionsData(m_savedPositions);
 
     m_iconView->setModel(m_model);
     m_iconView->setItemDelegate(m_delegate);

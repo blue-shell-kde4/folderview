@@ -237,6 +237,7 @@ private:
     IconView::Alignment m_alignment;
     QBasicTimer m_delayedSaveTimer;
     DirLister *m_dirLister;
+    QStringList m_savedPositions;
 };
 
 

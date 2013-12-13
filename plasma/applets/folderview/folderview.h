@@ -40,6 +40,7 @@
 
 #include "ui_folderviewFilterConfig.h"
 #include "ui_folderviewDisplayConfig.h"
+#include "ui_folderviewTextConfig.h"
 #include "ui_folderviewLocationConfig.h"
 #include "ui_folderviewPreviewConfig.h"
 
@@ -215,6 +216,7 @@ private:
     Qt::SortOrder m_sortOrder;
     Ui::folderviewFilterConfig uiFilter;
     Ui::folderviewDisplayConfig uiDisplay;
+    Ui::folderviewTextConfig uiText;
     Ui::folderviewLocationConfig uiLocation;
     Ui::folderviewPreviewConfig uiPreviewConfig;
     bool m_sortDirsFirst;

@@ -687,9 +687,11 @@ void FolderView::createConfigurationInterface(KConfigDialog *parent)
 {
     QWidget *widgetFilter = new QWidget;
     QWidget *widgetDisplay = new QWidget;
+    QWidget *widgetText = new QWidget;
     QWidget *widgetLocation = new QWidget;
     uiFilter.setupUi(widgetFilter);
     uiDisplay.setupUi(widgetDisplay);
+    uiText.setupUi(widgetText);
     uiLocation.setupUi(widgetLocation);
 
     if (!m_placesModel) {
@@ -782,17 +784,18 @@ void FolderView::createConfigurationInterface(KConfigDialog *parent)
     uiDisplay.alignToGrid->setChecked(m_alignToGrid);
     uiDisplay.clickToView->setChecked(m_clickToView);
     uiDisplay.lockInPlace->setChecked(m_iconsLocked);
-    uiDisplay.drawShadows->setChecked(m_drawShadows);
-    uiDisplay.horizShadowOffset->setValue(m_horizShadowOffset);
-    uiDisplay.vertShadowOffset->setValue(m_vertShadowOffset);
-    uiDisplay.shadowBlurRadius->setValue(m_shadowBlurRadius);
-    uiDisplay.shadowIntensity->setValue(m_shadowIntensity);
     uiDisplay.showPreviews->setChecked(m_showPreviews);
     uiDisplay.previewsAdvanced->setEnabled(m_showPreviews);
     uiDisplay.sortDescending->setChecked(m_sortOrder == Qt::DescendingOrder);
     uiDisplay.foldersFirst->setChecked(m_sortDirsFirst);
-    uiDisplay.numLinesEdit->setValue(m_numTextLines);
-    uiDisplay.colorButton->setColor(textColor());
+
+    uiText.numLinesEdit->setValue(m_numTextLines);
+    uiText.colorButton->setColor(textColor());
+    uiText.drawShadows->setChecked(m_drawShadows);
+    uiText.horizShadowOffset->setValue(m_horizShadowOffset);
+    uiText.vertShadowOffset->setValue(m_vertShadowOffset);
+    uiText.shadowBlurRadius->setValue(m_shadowBlurRadius);
+    uiText.shadowIntensity->setValue(m_shadowIntensity);
 
     setCurrentItem(uiDisplay.sortCombo, m_sortColumn);
     setCurrentItem(uiDisplay.layoutCombo, m_layout);
@@ -824,6 +827,7 @@ void FolderView::createConfigurationInterface(KConfigDialog *parent)
 
     parent->addPage(widgetLocation, i18nc("Title of the page that lets the user choose which location should the folderview show", "Location"), "folder");
     parent->addPage(widgetDisplay, i18nc("Title of the page that lets the user choose how the folderview should be shown", "Icons"), "preferences-desktop-icons");
+    parent->addPage(widgetText, i18nc("Title of the page that lets the user choose how the folderview icon texts should be shown", "Icon Text"), "preferences-desktop-font");
     parent->addPage(widgetFilter, i18nc("Title of the page that lets the user choose how to filter the folderview contents", "Filter"), "view-filter");
 
     connect(parent, SIGNAL(applyClicked()), this, SLOT(configAccepted()));
@@ -849,13 +853,14 @@ void FolderView::createConfigurationInterface(KConfigDialog *parent)
     connect(uiDisplay.clickToView, SIGNAL(toggled(bool)), parent, SLOT(settingsModified()));
     connect(uiDisplay.sortDescending, SIGNAL(toggled(bool)), parent, SLOT(settingsModified()));
     connect(uiDisplay.foldersFirst, SIGNAL(toggled(bool)), parent, SLOT(settingsModified()));
-    connect(uiDisplay.numLinesEdit, SIGNAL(valueChanged(int)), parent, SLOT(settingsModified()));
-    connect(uiDisplay.colorButton, SIGNAL(changed(QColor)), parent, SLOT(settingsModified()));
-    connect(uiDisplay.drawShadows, SIGNAL(toggled(bool)), parent, SLOT(settingsModified()));
-    connect(uiDisplay.horizShadowOffset, SIGNAL(valueChanged(int)), parent, SLOT(settingsModified()));
-    connect(uiDisplay.vertShadowOffset, SIGNAL(valueChanged(int)), parent, SLOT(settingsModified()));
-    connect(uiDisplay.shadowBlurRadius, SIGNAL(valueChanged(int)), parent, SLOT(settingsModified()));
-    connect(uiDisplay.shadowIntensity, SIGNAL(valueChanged(double)), parent, SLOT(settingsModified()));
+
+    connect(uiText.numLinesEdit, SIGNAL(valueChanged(int)), parent, SLOT(settingsModified()));
+    connect(uiText.colorButton, SIGNAL(changed(QColor)), parent, SLOT(settingsModified()));
+    connect(uiText.drawShadows, SIGNAL(toggled(bool)), parent, SLOT(settingsModified()));
+    connect(uiText.horizShadowOffset, SIGNAL(valueChanged(int)), parent, SLOT(settingsModified()));
+    connect(uiText.vertShadowOffset, SIGNAL(valueChanged(int)), parent, SLOT(settingsModified()));
+    connect(uiText.shadowBlurRadius, SIGNAL(valueChanged(int)), parent, SLOT(settingsModified()));
+    connect(uiText.shadowIntensity, SIGNAL(valueChanged(double)), parent, SLOT(settingsModified()));
 
     connect(uiFilter.filterCombo, SIGNAL(currentIndexChanged(int)), parent, SLOT(settingsModified()));
     connect(uiFilter.filterFilesPattern, SIGNAL(textChanged(QString)), parent, SLOT(settingsModified()));
@@ -890,28 +895,11 @@ void FolderView::configAccepted()
 
     KConfigGroup cg = config();
 
-    cg.writeEntry("drawShadows", uiDisplay.drawShadows->isChecked());
-    cg.writeEntry("vertShadowOffset", uiDisplay.vertShadowOffset->value());
-    cg.writeEntry("horizShadowOffset", uiDisplay.horizShadowOffset->value());
-    cg.writeEntry("shadowBlurRadius", uiDisplay.shadowBlurRadius->value());
-    cg.writeEntry("shadowIntensity", uiDisplay.shadowIntensity->value());
-
     cg.writeEntry("showPreviews", uiDisplay.showPreviews->isChecked());
 
     if (m_previewGenerator && m_previewPlugins != m_previewGenerator->enabledPlugins()) {
         cg.writeEntry("previewPlugins", m_previewPlugins);
     }
-
-    const QColor defaultColor = isContainment() ? Qt::white
-                                                : Plasma::Theme::defaultTheme()->color(Plasma::Theme::TextColor);
-    const QColor color = uiDisplay.colorButton->color();
-    if ((m_textColor != Qt::transparent && color != m_textColor) ||
-        (m_textColor == Qt::transparent && color != defaultColor))
-    {
-        cg.writeEntry("textColor", color);
-    }
-
-    cg.writeEntry("numTextLines", uiDisplay.numLinesEdit->value());
 
     const QList<int> iconSizes = QList<int>() << 16 << 22 << 32 << 48 << 64 << 128;
     const int size = iconSizes.at(uiDisplay.sizeSlider->value());
@@ -935,6 +923,22 @@ void FolderView::configAccepted()
     cg.writeEntry("alignToGrid", uiDisplay.alignToGrid->isChecked());
     cg.writeEntry("clickForFolderPreviews", uiDisplay.clickToView->isChecked());
     cg.writeEntry("iconsLocked", uiDisplay.lockInPlace->isChecked());
+
+    const QColor defaultColor = isContainment() ? Qt::white
+                                                : Plasma::Theme::defaultTheme()->color(Plasma::Theme::TextColor);
+    const QColor color = uiText.colorButton->color();
+    if ((m_textColor != Qt::transparent && color != m_textColor) ||
+        (m_textColor == Qt::transparent && color != defaultColor))
+    {
+        cg.writeEntry("textColor", color);
+    }
+
+    cg.writeEntry("numTextLines", uiText.numLinesEdit->value());
+    cg.writeEntry("drawShadows", uiText.drawShadows->isChecked());
+    cg.writeEntry("vertShadowOffset", uiText.vertShadowOffset->value());
+    cg.writeEntry("horizShadowOffset", uiText.horizShadowOffset->value());
+    cg.writeEntry("shadowBlurRadius", uiText.shadowBlurRadius->value());
+    cg.writeEntry("shadowIntensity", uiText.shadowIntensity->value());
 
     cg.writeEntry("url", url);
     cg.writeEntry("filterFiles", uiFilter.filterFilesPattern->text());

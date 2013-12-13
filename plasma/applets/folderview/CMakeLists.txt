@@ -30,6 +30,7 @@ set(folderview_SRCS
 kde4_add_ui_files(folderview_SRCS
                   folderviewFilterConfig.ui
                   folderviewDisplayConfig.ui
+                  folderviewTextConfig.ui
                   folderviewLocationConfig.ui
                   folderviewPreviewConfig.ui)
 
